@@ -11,7 +11,6 @@ import nltk
 from nltk.corpus import stopwords
 import helpers
 import joblib
-
 print( nltk.__version__)
 
 app= Flask(__name__, template_folder="templates")
@@ -28,20 +27,11 @@ api = Api(app)
 
 vectorizer =  joblib.load('vectorizer_tfid.pkl')
 multilabelbin= joblib.load('multilabelbinarizer.pkl')
+model = joblib.load('model.pkl')
 stop_words = set(stopwords.words('english'))
 stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten',
                    'may','also','across','among','beside','however','yet','within',
                    'and','or'])
-data = [['tom$ zero don him', 10], ['tagging nick<> ', 15], ['juli.. are', 14]]
-df = pd.DataFrame(data, columns = ['plot', 'Id'])
-df['plot_trans'] = df['plot'].str.lower()
-df['plot_trans'] = df['plot_trans'].apply(lambda sentencia:helpers.remover_stopwords(sentencia,stop_words))
-df['plot_trans'] = df['plot_trans'].apply(lambda sentencia: helpers.remover_html(sentencia))
-df['plot_trans'] = df['plot_trans'].apply(lambda sentencia:helpers.remover_caracteres_especiales(sentencia))
-df['plot_trans'] = df['plot_trans'].apply(lambda sentencia:helpers.mantener_caracteres_alfabeticos(sentencia))
-df['plot_trans'] = df['plot_trans'].apply(lambda sentencia:helpers.lemmatizar_con_postag(sentencia))
-
-print(df['plot_trans']) 
 @app.route("/")
 def home():
     return render_template('index.html')
@@ -50,6 +40,7 @@ def home():
 def predict():
     global vectorizer
     global multilabelbin
+    global model
     prediction_text=str(request.form['notes'])
     prediction_text = prediction_text.lower()
     prediction_text = helpers.remover_html(prediction_text)
@@ -60,7 +51,10 @@ def predict():
     df = pd.DataFrame(data, columns = ['plot'])
     x_dtm= vectorizer.transform(df['plot'])
     print(x_dtm)
-    return render_template('index.html', id='predict', prediction_text=prediction_text)        
+    yPred=model.predict(x_dtm)
+    y_labels_pred= multilabelbin.inverse_transform(yPred)
+    y_labels_pred= list(y_labels_pred)
+    return render_template('index.html', id='predict', prediction_text=prediction_text, result=y_labels_pred)        
 
 @app.route('/api/doc',methods=['GET'])
 def api_documentation():
