@@ -10,6 +10,7 @@ import traceback
 import nltk
 from nltk.corpus import stopwords
 import helpers
+import joblib
 
 print( nltk.__version__)
 
@@ -25,6 +26,8 @@ nltk.download('omw-1.4')
 
 api = Api(app)
 
+vectorizer =  joblib.load('vectorizer_tfid.pkl')
+multilabelbin= joblib.load('multilabelbinarizer.pkl')
 stop_words = set(stopwords.words('english'))
 stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten',
                    'may','also','across','among','beside','however','yet','within',
@@ -45,13 +48,23 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
+    global vectorizer
+    global multilabelbin
     prediction_text=str(request.form['notes'])
     prediction_text = prediction_text.lower()
     prediction_text = helpers.remover_html(prediction_text)
     prediction_text = helpers.remover_caracteres_especiales(prediction_text)
     prediction_text = helpers.mantener_caracteres_alfabeticos(prediction_text)
     prediction_text = helpers.lemmatizar_con_postag(prediction_text)
+    data=[[prediction_text]]
+    df = pd.DataFrame(data, columns = ['plot'])
+    x_dtm= vectorizer.transform(df['plot'])
+    print(x_dtm)
     return render_template('index.html', id='predict', prediction_text=prediction_text)        
 
+@app.route('/api/doc',methods=['GET'])
+def api_documentation():
+     return render_template('documentation.html')
+    
 if __name__ == '__main__':
     app.run()
