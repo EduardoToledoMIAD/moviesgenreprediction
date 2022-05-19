@@ -1,6 +1,7 @@
 import re
 from nltk.corpus import stopwords
 from textblob import TextBlob, Word 
+
 def remover_html(texto):
     texto_prep = re.compile('<.*?>')
     texto_prep = re.sub(texto_prep, ' ', str(texto))
