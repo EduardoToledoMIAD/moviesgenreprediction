@@ -28,9 +28,18 @@ api = Api(app)
 
 config.vectorizer =  joblib.load('vectorizer_tfid.pkl')
 config.multilabelbin= joblib.load('multilabelbinarizer.pkl')
-config.model_rf = joblib.load('model.pkl')
-stop_words = set(stopwords.words('english'))
-stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten',
+config.model_rf = joblib.load('model_RF.pkl')
+
+#try:
+#    config.tokenizer = joblib.load('tokenizer.pkl') 
+#    config.model_nn = joblib.load('model_NN.pkl')
+    
+#except Exception as e:
+#    print("Error")
+
+
+config.stop_words = set(stopwords.words('english'))
+config.stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten',
                    'may','also','across','among','beside','however','yet','within',
                    'and','or'])
 @app.route("/")
@@ -40,12 +49,13 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
     sentencia=str(request.form['notes'])
-    prediction_text,y_labels_pred=ML.prediction_with_randomforest(sentencia)
+    prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
     return render_template('index.html', id='predict', prediction_text=prediction_text, result=y_labels_pred)        
 
 @app.route('/api/doc',methods=['GET'])
 def api_documentation():
-     return render_template('documentation.html')
+    #y_labels_pred=ML.prediccion_con_embedding_nn("Text: Command ignored: No document in device Escrow")
+    return render_template('documentation.html')
     
 if __name__ == '__main__':
     app.run()
