@@ -14,7 +14,7 @@
 <div class="jumbotron">
         <div  style="margin-left: 106px;">
             <h1 class="display-4">Movie Genres Prediction</h1>
-            <p class="lead">Natural Language Processing using a Classic Machine Learning Classification Model </p>
+            <p class="lead">Natural Language Processing using  Classic Machine Learning Classification Model  and Deep Learning</p>
             <hr style="background: gray; height: 1px; width: 100%; border: 0">
             <p>Also, this site offers a REST API to be used in any platform.</p>
             <p class="lead">
@@ -26,21 +26,38 @@
 
     <div class="leftpane" >
         <div class="form">
-				
-		    <label for = "notes">MOVIE PLOT</label><br>
+		
                 <form action = "/predict" method = "post">
-                <textarea id="notes" name="notes" cols="159" rows="12" placeholder="Enter Movie Plot" style="border:0px solid #000000;border-width: 3px">{{ prediction_text }}</textarea>
-                <button type="submit" class="btn btn-warning">Predict</button>
-	            </form>
-                <br>
-           </div>
+                        <label>Select Model </label><br>
+                        <div class="row" style="margin-left: 4px;">
+                                <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="RF" name="optratio" value="RF" checked>Prediction with RandomForest
+                                        <label class="form-check-label" for="radio1"></label>
+                                </div>
+                                <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="NN" name="optratio" value="NN">Prediction with NN and Embeddings
+                                        <label class="form-check-label" for="radio2"></label>
+                                </div>
+                                <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="NN" name="optratio" value="LSTM">Prediction with LSTM and GloVe
+                                        <label class="form-check-label" for="radio3"></label>
+                                </div>
+                         </div>
+                        <br/>
+                        <label for = "notes">Movie Plot:</label><br>
+                        <textarea id="notes" name="notes" cols="159" rows="12" placeholder="Enter Movie Plot" style="border:0px solid #000000;border-width: 3px">{{ prediction_text }}</textarea>
+                        <button type="submit" class="btn btn-warning">Predict</button>
+	        </form>
         </div>
-
-        <div class="rightpane">
+        <br>
+   </div>
+</div>
+<br/>
+<div class="rightpane" style="margin-left: 110px;">
 
         <div class="panel panel-primary">
 
-        <div class="panel-heading" data-toggle="collapse" data-target="#demo">GENRES</div>
+        <div class="panel-heading" data-toggle="collapse" data-target="#demo" >GENRES</div>
         <div class="panel-body" id="demo" class="collapse in">
 	<ul class="list-group">
 

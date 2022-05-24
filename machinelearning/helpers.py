@@ -1,6 +1,7 @@
 import re
 from nltk.corpus import stopwords
 from textblob import TextBlob, Word 
+import config
 
 def remover_html(texto):
     texto_prep = re.compile('<.*?>')
@@ -38,6 +39,6 @@ def lemmatizar_con_postag(texto):
 
 
 
-def remover_stopwords(texto,stop_words):
-    texto_prep = re.compile(r"\b(" + "|".join(stop_words) + ")\\W", re.I)
+def remover_stopwords(texto):
+    texto_prep = re.compile(r"\b(" + "|".join(config.stop_words) + ")\\W", re.I)
     return texto_prep.sub(" ", texto)
