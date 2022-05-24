@@ -30,7 +30,7 @@ var spec = {
       
     },
     "paths": {
-      "/api/moviegenres-prediction": {
+      "/api/moviesgenres-prediction": {
         "post": {
           "summary": "Create a prediction.",
           "operationId": "createPrediction",
@@ -41,7 +41,7 @@ var spec = {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CarPrediction"
+                  "$ref": "#/components/schemas/MoviesGenresPrediction"
                 }
               }
             }
@@ -75,7 +75,7 @@ var spec = {
     },
     "components": {
       "schemas": {
-        "CarPrediction": {
+        "MoviesGenresPrediction": {
           "required": [
             "batch"
           ],
@@ -92,14 +92,14 @@ var spec = {
         "ItemForBatch": {
           "type": "object",
           "required": [
-            "movie_plot"
+            "plot"
             
           ],
           "properties": {
-            "movie_plot": {
+            "plot": {
               "description": "Movie Overview",
               "type": "str",
-              "example": 'This film ....'
+              "example": 'a serial killer decides to teach the secrets of his satisfying career to a video store clerk'
             }
           }
         },
@@ -114,7 +114,7 @@ var spec = {
               "type": "array",
               "items" : {
                 "type": "str",
-                "example": "Comedy"
+                "example": "Comedy,Action"
               }
             }
           }

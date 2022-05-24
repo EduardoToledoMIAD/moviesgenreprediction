@@ -92,10 +92,9 @@ def predict():
     if tipo_modelo == 'RF':
         prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
     elif tipo_modelo == 'NN':
-        #prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
-        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
+        prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
     else:
-        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
+        prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
     return render_template('index.html', id='predict', prediction_text=prediction_text, result=y_labels_pred)        
 
 @app.route('/api/doc',methods=['GET'])
