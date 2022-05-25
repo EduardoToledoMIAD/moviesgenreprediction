@@ -23,8 +23,8 @@ class MoviesGenresPrediction(Resource):
         return df
 
     def _text_preprocessing(self, json):
-        df = pd.DataFrame(json,columns=['plot'])
-        df['plot'] = df['plot'].str.lower()
+        df = pd.DataFrame(json,columns=['title','plot'])
+        df['plot'] = df['title'].str.lower() + " " + df['plot'].str.lower()
         df['plot'] = df['plot'].apply(lambda x: helpers.remover_html(x))
         df['plot'] = df['plot'].apply(lambda x:helpers.remover_caracteres_especiales(x))
         df['plot'] = df['plot'].apply(lambda x:helpers.mantener_caracteres_alfabeticos(x))
@@ -87,15 +87,19 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    sentencia=str(request.form['notes'])
-    tipo_modelo= str(request.form['optratio'])
+    sentencia=str(request.form['title']) + " " + str(request.form['notes'])
+    tipo_modelo= str(request.form['optratio']) 
     if tipo_modelo == 'RF':
         prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
     elif tipo_modelo == 'NN':
-        prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
+        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
+        #prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
     else:
-        prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
-    return render_template('index.html', id='predict', prediction_text=prediction_text, result=y_labels_pred)        
+        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
+        #prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
+    return render_template('index.html', id='predict', 
+                            prediction_text=prediction_text,
+                            result=y_labels_pred)        
 
 @app.route('/api/doc',methods=['GET'])
 def api_documentation():

@@ -92,15 +92,20 @@ var spec = {
         "ItemForBatch": {
           "type": "object",
           "required": [
-            "plot"
-            
+            "plot",
+            "tite"
           ],
           "properties": {
             "plot": {
               "description": "Movie Overview",
               "type": "str",
-              "example": 'a serial killer decides to teach the secrets of his satisfying career to a video store clerk'
-            }
+              "example": 'the true story of billy hayes ,  an american college student who is caught smuggling drugs out of turkey and thrown into prison'
+            },
+            "title": {
+              "description": "Movie Title",
+              "type": "str",
+              "example": 'Midnight Express'
+            },
           }
         },
         "PredictionResult": {
