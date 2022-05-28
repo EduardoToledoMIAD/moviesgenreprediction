@@ -69,13 +69,6 @@ config.vectorizer =  joblib.load('vectorizer_tfid.pkl')
 config.multilabelbin= joblib.load('multilabelbinarizer.pkl')
 config.model_rf = joblib.load('model_RF.pkl')
 
-#try:
-#    config.tokenizer = joblib.load('tokenizer.pkl') 
-#    config.model_nn = joblib.load('model_NN.pkl')
-    
-#except Exception as e:
-#    print("Error")
-
 
 config.stop_words = set(stopwords.words('english'))
 config.stop_words.update(['zero','one','two','three','four','five','six','seven','eight','nine','ten',
@@ -88,15 +81,7 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
     sentencia=str(request.form['title']) + " " + str(request.form['notes'])
-    tipo_modelo= str(request.form['optratio']) 
-    if tipo_modelo == 'RF':
-        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
-    elif tipo_modelo == 'NN':
-        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
-        #prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
-    else:
-        prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
-        #prediction_text,y_labels_pred=ML.prediccion_con_embedding_nn(sentencia)
+    prediction_text,y_labels_pred=ML.prediccion_con_randomforest(sentencia)
     return render_template('index.html', id='predict', 
                             prediction_text=prediction_text,
                             result=y_labels_pred)        

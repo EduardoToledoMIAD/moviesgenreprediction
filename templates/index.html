@@ -28,21 +28,6 @@
         <div class="form">
 		
                 <form action = "/predict" method = "post">
-                        <label>Select Model </label><br>
-                        <div class="row" style="margin-left: 4px;">
-                                <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="RF" name="optratio" value="RF" checked>Prediction with RandomForest
-                                        <label class="form-check-label" for="radio1"></label>
-                                </div>
-                                <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="NN" name="optratio" value="NN">Prediction with NN and Embeddings
-                                        <label class="form-check-label" for="radio2"></label>
-                                </div>
-                                <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="NN" name="optratio" value="LSTM">Prediction with LSTM and GloVe
-                                        <label class="form-check-label" for="radio3"></label>
-                                </div>
-                         </div>
                         <br/>
                         <label for = "title">Movie Title:</label><br>
                         <input type="text" id="title" name="title" size="120px"  placeholder="Enter Movie Title" style="border:0px solid #000000;border-width: 1px"></input>
